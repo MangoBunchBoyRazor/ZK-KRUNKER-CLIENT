@@ -1,25 +1,24 @@
 const { ipcRenderer } = require("electron");
-let cssurls;
 
-window.addEventListener("DOMContentLoaded", () => {
-  if (document.location.href.startsWith("https://krunker.io/")) {
-    ipcRenderer.send("swapFiles");
-  }
-});
-
+//#region *** Custom Import Settings Menu ***
 window.prompt = importSettings = () => {
-  const tempHTML = `<div class="setHed">Import Settings</div>
-    <div class="settName" id="importSettings_div" style="display:block">Settings -<input type="url" placeholder="Paste Settings Here" name="url" class="inputGrey2" id="settingString"></div>
+  // *** Set The Inner HTML ***
+
+  var tempHTML = `<div class="setHed">Import Settings</div>
+    <div class="settName" id="importSettings_div" style="display:block">Settings String<input type="url" placeholder="Paste Settings String Here" name="url" class="inputGrey2" id="settingString"></div>
     <a class="+" id="importBtn">Import</a>`;
-  menuWindow.innerHTML = tempHTML;
+  win.innerHTML = tempHTML;
   importBtn.addEventListener("click", () => {
     parseSettings(settingString.value);
   });
+
+  // *** Parse Settings ***
+
   parseSettings = (string) => {
     if (string) {
       try {
-        const json = JSON.parse(string);
-        for (const setting in json) {
+        var json = JSON.parse(string);
+        for (var setting in json) {
           setSetting(setting, json[setting]);
           showWindow(1);
         }
@@ -31,6 +30,16 @@ window.prompt = importSettings = () => {
   };
 };
 
+
+
+let cssurls;
+window.addEventListener("DOMContentLoaded", () => {
+  if (document.location.href.startsWith("https://krunker.io/")) {
+    ipcRenderer.send("swapFiles");
+  }
+});
+
+
 ipcRenderer.on("css-urls", (e, d) => {
   cssurls = d.urls;
   cssurls.forEach((url) => {
@@ -41,5 +50,9 @@ ipcRenderer.on("css-urls", (e, d) => {
   });
 });
 
-//Client popup workaround from idkr
+//popup workaround 
 window.OffCliV = true;
+//
+
+
+

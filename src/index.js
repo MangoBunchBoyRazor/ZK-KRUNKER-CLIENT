@@ -1,14 +1,12 @@
 //modules
 require("v8-compile-cache"); //For better startup
-const { autoUpdater } = require('electron-updater');
-const isDev = require('electron-is-dev');
 const path = require("path");
 const { app, BrowserWindow, Menu, ipcMain } = require("electron");
 const shortcuts = require("electron-localshortcut");
 const Store = require("electron-store");
 Menu.setApplicationMenu(null);
 const config = new Store();
-//const DiscordRPC = require("discord-rpc");
+const DiscordRPC = require("discord-rpc");
 const fs = require("fs");
 const { dir } = require("console");
 
@@ -32,7 +30,7 @@ const createWindow = () => {
   // Create the browser window.
   win = new BrowserWindow({
     width: 1120,
-    height: 635,
+    height: 645,
     frame: true,
 	titleBarStyle: 'hidden',
     show: false,
@@ -49,22 +47,30 @@ const createWindow = () => {
   splash.loadFile(path.join(__dirname, "splash.html"));
   //-
 
-  win.loadFile(path.join(__dirname, "index.html"));
-
+  //win.loadFile(path.join(__dirname, "index.html"));
+    win.loadURL('https://krunker.io');
+	
   if (config.get("enablePointerLockOptions", false)) {
     app.commandLine.appendSwitch("enable-pointer-lock-options");
   }
+  
   let contents = win.webContents;
   shortcuts.register(win, "Escape", () =>
     contents.executeJavaScript("document.exitPointerLock()", true)
   );
 
+   let cont2 = win.webContents;
+  shortcuts.register(win, "F11", () =>
+    cont2.executeJavaScript("win.setFullScreen()", true)
+  );
+  
+  
   win.once("ready-to-show", () => {
     win.show();
-	autoUpdater.checkForUpdatesAndNotify();
     splash.destroy();
   });
-};
+  
+}
 
 app.allowRendererProcessReuse = true;
 app.on("ready", createWindow);
@@ -81,21 +87,6 @@ app.on("activate", () => {
   }
 });
 
-//Auto Updates
-ipcMain.on('app_version', (event) => {
-  event.sender.send('app_version', { version: app.getVersion() });
-});
-
-autoUpdater.on('update-available', () => {
-  mainWindow.webContents.send('update_available');
-});
-autoUpdater.on('update-downloaded', () => {
-  mainWindow.webContents.send('update_downloaded');
-});
-
-ipcMain.on('restart_app', () => {
-  autoUpdater.quitAndInstall();
-});
 
 //RPC CODE
 const clientId = "826389993122562048";  
@@ -115,7 +106,7 @@ async function setActivity() {
   }
 
   rpc.setActivity({
-    details: `Shooting peeps`,
+    details: `Choking Nukes`,
     state: "Playing on ZK Client",
     startTimestamp,
     largeImageKey: "icon_512x512",

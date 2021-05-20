@@ -1,7 +1,7 @@
 //modules
 require("v8-compile-cache"); //For better startup
 const path = require("path");
-const { app, BrowserWindow, Menu, ipcMain } = require("electron");
+const { app, BrowserWindow, Menu, ipcMain, globalShortcut } = require("electron");
 const shortcuts = require("electron-localshortcut");
 const Store = require("electron-store");
 Menu.setApplicationMenu(null);
@@ -64,6 +64,17 @@ const createWindow = () => {
     cont2.executeJavaScript("win.setFullScreen()", true)
   );
   
+  app.whenReady().then(() => {
+  globalShortcut.register('F11', () => {
+    win.setFullScreen(true)
+  })
+  globalShortcut.register('Escape', () => {
+    win.setFullScreen(false)
+  })
+  globalShortcut.register('Escape', () => {
+    document.exitPointerLock(true)
+  })
+})
   
   win.once("ready-to-show", () => {
     win.show();

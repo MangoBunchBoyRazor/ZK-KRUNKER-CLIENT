@@ -5,11 +5,9 @@
 	<title>ZK-Client</title>
 	<style>
 		body {
-			background-image: url("./media/icon/icon_png.png");
-			background-attachment: fixed;
-			background-position: center;
-			background-repeat: no-repeat;
-			background-size: 100px;
+			content: url("./media/load-icon-png.png");
+			transform: translate(302.5px, 200px);
+			align-items: center;
 			border: 0px solid rgb(0, 0, 0);
 			position: absolute;
 			top: 0;
@@ -18,13 +16,34 @@
 			left: 0;
 			margin: 0;
 			overflow: hidden;
-        }
-		
-		body:hover {
-		    
-        }
-		
-	</style>
+			animation-name: cf3FadeInOut;
+            animation-timing-function: ease-in-out;
+            animation-iteration-count: infinite;
+            animation-duration: 0.4s;
+            animation-direction: alternate;
+}
+
+@keyframes cf3FadeInOut {
+0% {
+opacity:1;
+}
+25% {
+opacity:0.75;
+}
+50% {
+opacity:0.50;
+}
+75% {
+opacity:0.25;
+}
+100% {
+opacity:0;
+}
+}
+
+
+
+</style>
 </head>
 
 

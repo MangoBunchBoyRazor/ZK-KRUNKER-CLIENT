@@ -10,6 +10,7 @@ const DiscordRPC = require("discord-rpc");
 const fs = require("fs");
 const { dir } = require("console");
 
+
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
   // eslint-disable-line global-require
@@ -45,11 +46,14 @@ const createWindow = () => {
  //Splash-
   splash = new BrowserWindow({width: 810, height: 610, transparent: true, frame: false, alwaysOnTop: true});
   splash.loadFile(path.join(__dirname, "splash.html"));
+  splash.setIgnoreMouseEvents(true);
   //-
 
   //win.loadFile(path.join(__dirname, "index.html"));
     win.loadURL('https://krunker.io');
-	
+
+
+
   if (config.get("enablePointerLockOptions", false)) {
     app.commandLine.appendSwitch("enable-pointer-lock-options");
   }
@@ -59,21 +63,19 @@ const createWindow = () => {
     contents.executeJavaScript("document.exitPointerLock()", true)
   );
 
-   let cont2 = win.webContents;
-  shortcuts.register(win, "F11", () =>
-    cont2.executeJavaScript("win.setFullScreen()", true)
-  );
-  
   app.whenReady().then(() => {
-  globalShortcut.register('F11', () => {
-    win.setFullScreen(true)
-  })
-  globalShortcut.register('Escape', () => {
-    win.setFullScreen(false)
-  })
-  globalShortcut.register('Escape', () => {
-    document.exitPointerLock(true)
-  })
+	  
+
+  
+	globalShortcut.register('F11', () => {
+      win.setFullScreen(true)
+    })
+	
+	
+	globalShortcut.register('F10', () => {
+      win.setFullScreen(false)
+    })
+	
 })
   
   win.once("ready-to-show", () => {
@@ -81,10 +83,16 @@ const createWindow = () => {
     splash.destroy();
   });
   
+  
+  
 }
 
 app.allowRendererProcessReuse = true;
 app.on("ready", createWindow);
+
+
+
+
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
@@ -120,7 +128,7 @@ async function setActivity() {
     details: `Choking Nukes`,
     state: "Playing on ZK Client",
     startTimestamp,
-    largeImageKey: "icon_512x512",
+    largeImageKey: "icon1",
     largeImageText: "ZK Client",
   });
 }

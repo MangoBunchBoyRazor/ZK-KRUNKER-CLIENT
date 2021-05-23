@@ -32,7 +32,10 @@
   },
   "build": {
     "appId": "zk",
+	"asar": true,
     "dmg": {
+	  "background": "build/background.png",
+	  "icon": "build/icon.icns",
       "contents": [
         {
           "x": 110,
@@ -51,6 +54,10 @@
         "AppImage",
         "deb"
       ]
+    },
+	"mac": {
+	  "target": ["dmg"],
+	  "icon": "build/icon.icns"
     },
     "win": {
       "target": [ "nsis" ],
